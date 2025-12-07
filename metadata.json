@@ -1,0 +1,5 @@
+{
+  "name": "Etsy Listing Generator",
+  "description": "Upload a product photo to automatically generate optimized Etsy listing titles, descriptions, tags, and attributes using Gemini AI.",
+  "requestFramePermissions": []
+}
