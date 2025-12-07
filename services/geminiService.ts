@@ -26,11 +26,6 @@ const FABRICS = [
   "Tweed", "Twil", "Ultrasuede", "Velour", "Velvet", "Velveteen", "Vicuna", "Vinyl", "Voile", "Wool", "Yak"
 ];
 
-const STYLES = [
-  "Art deco", "Boho & hippie", "Formal event", "Gothic", "Military", "Minimalist", 
-  "Pin-up & rockabilly", "Rave", "Steampunk", "Western & cowboy"
-];
-
 const OCCASIONS = [
   "1st birthday", "Anniversary", "Baby shower", "Bachelor party", "Bachelorette party", "Back to school", 
   "Baptism", "Bar & Bat Mitzvah", "Birthday", "Bridal shower", "Confirmation", "Divorce & breakup", 
@@ -72,11 +67,9 @@ export const generateListingInfo = async (files: File[]): Promise<EtsyListingDat
 
   const prompt = `
     You are an expert Etsy SEO specialist. 
-    Analyze these product images and generate a high-quality Etsy listing.
+    Analyze these product images and generate a high-quality Etsy listing description and attributes.
     
-    1. Title: SEO optimized, keyword rich, readable, max 140 chars.
-    
-    2. Description: Write a professional, "Best Seller" quality description.
+    1. Description: Write a professional, "Best Seller" quality description.
        - Structure: 
          (a) Engaging Hook.
          (b) What's Included: CLEARLY state exactly what the buyer gets. EXPLICITLY state "Props/Decor not included" if relevant.
@@ -85,19 +78,14 @@ export const generateListingInfo = async (files: File[]): Promise<EtsyListingDat
          (e) Production/Care: Mention "Made to order", "Handmade in a smoke-free/pet-free environment", and "Care instructions".
        - Tone: Helpful, detailed, transparent, and defensive (managing expectations about props/shipping).
 
-    3. Category: The most specific Etsy category tree (e.g., Bags & Purses > Handbags).
-
-    4. Attributes: YOU MUST SELECT FROM THE PROVIDED LISTS ONLY. If no fit, return empty string.
+    2. Attributes: YOU MUST SELECT FROM THE PROVIDED LISTS ONLY. If no fit, return empty string.
        - Primary Color: Choose from [${COLORS.join(", ")}]
        - Secondary Color: Choose from [${COLORS.join(", ")}]
        - Primary Fabric: Choose from [${FABRICS.join(", ")}]
-       - Style: Choose from [${STYLES.join(", ")}]
        - Occasion: Choose from [${OCCASIONS.join(", ")}]
        - Holiday: Choose from [${HOLIDAYS.join(", ")}]
 
-    5. Tags: Exactly 13 highly relevant search tags (multi-word phrases preferred).
-    6. Materials: List of likely materials used.
-    7. Price Estimate: A realistic price estimate in USD.
+    3. Materials: List of likely materials used.
   `;
 
   const response = await ai.models.generateContent({
@@ -111,26 +99,18 @@ export const generateListingInfo = async (files: File[]): Promise<EtsyListingDat
       responseSchema: {
         type: Type.OBJECT,
         properties: {
-          title: { type: Type.STRING },
           description: { type: Type.STRING },
-          category: { type: Type.STRING },
           primaryColor: { type: Type.STRING },
           secondaryColor: { type: Type.STRING },
           primaryFabric: { type: Type.STRING },
           occasion: { type: Type.STRING },
-          style: { type: Type.STRING },
           holiday: { type: Type.STRING },
-          tags: {
-            type: Type.ARRAY,
-            items: { type: Type.STRING },
-          },
           materials: {
             type: Type.ARRAY,
             items: { type: Type.STRING },
           },
-          priceEstimate: { type: Type.STRING },
         },
-        required: ["title", "description", "category", "tags", "materials"],
+        required: ["description", "materials"],
       },
     },
   });

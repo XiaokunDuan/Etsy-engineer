@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import { generateListingInfo } from './services/geminiService';
 import { EtsyListingData } from './types';
 import CopyField from './components/CopyField';
-import TagList from './components/TagList';
 
 const App: React.FC = () => {
   const [files, setFiles] = useState<File[]>([]);
@@ -214,17 +213,12 @@ const App: React.FC = () => {
             {listingData && (
               <div className="space-y-8">
                 
-                {/* Section: About */}
+                {/* Section: Description */}
                 <section className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
                   <div className="bg-gray-50 px-6 py-3 border-b border-gray-200">
                     <h3 className="text-sm font-bold text-gray-600 uppercase tracking-wider">About This Item</h3>
                   </div>
                   <div className="p-6">
-                    <CopyField 
-                      label="Title" 
-                      value={listingData.title} 
-                      helperText={`${listingData.title.length}/140 characters`}
-                    />
                     <CopyField 
                       label="Description" 
                       value={listingData.description} 
@@ -234,54 +228,31 @@ const App: React.FC = () => {
                   </div>
                 </section>
 
-                {/* Section: Category & Attributes */}
+                {/* Section: Attributes */}
                 <section className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
                    <div className="bg-gray-50 px-6 py-3 border-b border-gray-200">
-                    <h3 className="text-sm font-bold text-gray-600 uppercase tracking-wider">Details & Attributes</h3>
+                    <h3 className="text-sm font-bold text-gray-600 uppercase tracking-wider">Attributes</h3>
                   </div>
                   <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-x-6">
-                    <div className="md:col-span-2">
-                      <CopyField label="Category" value={listingData.category} />
-                    </div>
                     <CopyField label="Primary Color" value={listingData.primaryColor} />
                     <CopyField label="Secondary Color" value={listingData.secondaryColor} />
                     <CopyField label="Primary Fabric" value={listingData.primaryFabric} />
                     <CopyField label="Occasion" value={listingData.occasion} />
                     <CopyField label="Holiday" value={listingData.holiday} />
-                    <CopyField label="Style" value={listingData.style} />
                   </div>
                 </section>
 
-                {/* Section: Tags & Materials */}
+                {/* Section: Materials */}
                 <section className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
                   <div className="bg-gray-50 px-6 py-3 border-b border-gray-200">
-                    <h3 className="text-sm font-bold text-gray-600 uppercase tracking-wider">Search Optimization</h3>
+                    <h3 className="text-sm font-bold text-gray-600 uppercase tracking-wider">Materials</h3>
                   </div>
                   <div className="p-6">
-                    <TagList tags={listingData.tags} />
-                    
-                    <div className="mt-8">
                        <CopyField 
                         label="Materials" 
                         value={listingData.materials.join(', ')} 
                         helperText="Separate ingredients with commas."
                       />
-                    </div>
-                  </div>
-                </section>
-
-                {/* Section: Pricing */}
-                 <section className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                   <div className="bg-gray-50 px-6 py-3 border-b border-gray-200">
-                    <h3 className="text-sm font-bold text-gray-600 uppercase tracking-wider">Inventory & Pricing</h3>
-                  </div>
-                  <div className="p-6">
-                    <div className="max-w-xs">
-                      <CopyField 
-                        label="Suggested Price (USD)" 
-                        value={listingData.priceEstimate} 
-                      />
-                    </div>
                   </div>
                 </section>
 
